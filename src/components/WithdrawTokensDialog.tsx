@@ -120,7 +120,9 @@ export function WithdrawTokensDialogContent({
 
       <div className="space-y-6">
         <div className="p-4 bg-card rounded-lg">
-          <div className="text-sm text-muted-foreground">Tokens Earned</div>
+          <div className="text-sm text-muted-foreground font-medium">
+            Tokens Earned
+          </div>
           <div className="text-xl font-bold text-foreground">
             {userBalance.toFixed(2)} PXP
           </div>

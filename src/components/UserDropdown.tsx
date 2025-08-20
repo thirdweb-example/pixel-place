@@ -67,7 +67,7 @@ export function UserDropdown({ user, onLogout }: UserDropdownProps) {
         {/* Wallet Address  */}
         <div>
           <DropdownMenuLabel className="px-0">Wallet Address</DropdownMenuLabel>
-          <div className="flex items-center gap-2 px-3 py-1 bg-card rounded-md">
+          <div className="flex items-center gap-2 px-3 py-2 bg-card rounded-md">
             <span className="text-sm font-mono flex-1">
               {formatWalletAddress(user.walletAddress)}
             </span>
@@ -75,6 +75,7 @@ export function UserDropdown({ user, onLogout }: UserDropdownProps) {
               text={user.walletAddress}
               variant="ghost"
               className="translate-x-2"
+              iconClassName="size-3"
             />
           </div>
         </div>
