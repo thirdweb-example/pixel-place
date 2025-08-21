@@ -12,7 +12,7 @@ interface TokenDistributionResult {
   error?: string;
 }
 
-export async function distributeTokens({
+export async function transferTokens({
   walletAddress,
   pixelCount,
 }: TokenDistributionParams): Promise<TokenDistributionResult> {
@@ -57,11 +57,11 @@ export async function distributeTokens({
       transactionHash: result.transactionHash,
     };
   } catch (error) {
-    console.error("Token distribution error:", error);
+    console.error("Token transfer error:", error);
     return {
       success: false,
       error:
-        error instanceof Error ? error.message : "Failed to distribute tokens",
+        error instanceof Error ? error.message : "Failed to transfer coins",
     };
   }
 }

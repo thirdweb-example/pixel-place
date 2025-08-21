@@ -54,7 +54,7 @@ export function WithdrawTokensDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full my-2">
-          Withdraw Tokens
+          Withdraw Coins
         </Button>
       </DialogTrigger>
       <WithdrawTokensDialogContent
@@ -85,7 +85,7 @@ export function WithdrawTokensDialogContent({
   const onSubmit = async (data: WithdrawFormData) => {
     if (data.amount > userBalance) {
       toast.error("Insufficient balance", {
-        description: `You only have ${userBalance.toFixed(1)} tokens available`,
+        description: `You only have ${userBalance.toFixed(1)} coins available`,
       });
       return;
     }
@@ -97,11 +97,11 @@ export function WithdrawTokensDialogContent({
     });
 
     if (!validationResult.success) {
-      toast.error("Failed to withdraw tokens", {
+      toast.error("Failed to withdraw coins", {
         description: validationResult.error,
       });
     } else {
-      toast.success("Tokens withdrawn successfully!");
+      toast.success("Coins withdrawn successfully!");
       queryClient.invalidateQueries({ queryKey: ["tokenBalance"] });
       setIsOpen(false);
     }
@@ -145,7 +145,7 @@ export function WithdrawTokensDialogContent({
                     />
                   </FormControl>
                   <FormDescription>
-                    The tokens will be sent to this wallet address
+                    The coins will be sent to this wallet address
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -185,7 +185,7 @@ export function WithdrawTokensDialogContent({
               className="w-full gap-2"
               disabled={form.formState.isSubmitting}
             >
-              Withdraw Tokens
+              Withdraw Coins
               {form.formState.isSubmitting ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (

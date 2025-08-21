@@ -5,7 +5,7 @@ import { COOLDOWN_TIMER } from "@/constants";
 import { getUser } from "@/lib/get-user";
 import { NEXT_PUBLIC_SUPABASE_URL } from "@/lib/public-envs";
 import { SUPABASE_SERVICE_ROLE_KEY } from "@/lib/server-envs";
-import { distributeTokens } from "@/lib/token-distribution";
+import { transferTokens } from "@/lib/token-distribution";
 
 const supabase_server_role = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -139,9 +139,9 @@ export async function updateGridCell(
       // Don't fail the entire request if session update fails
     }
 
-    // Distribute tokens for successful grid update
+    // transfer tokens for successful grid update
     const pixelCount = colorId === null ? 0.5 : 1; // Half reward for clearing, full reward for placing
-    const tokenResult = await distributeTokens({
+    const tokenResult = await transferTokens({
       walletAddress: user.walletAddress,
       pixelCount,
     });
