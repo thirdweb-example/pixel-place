@@ -2,7 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { updateGridCell } from "@/actions/grid";
-import { GRID_COLUMNS, GRID_ROWS, getColorIdByValue } from "@/constants";
+import {
+  COOLDOWN_TIMER,
+  GRID_COLUMNS,
+  GRID_ROWS,
+  getColorIdByValue,
+} from "@/constants";
 import type { User } from "@/lib/get-user";
 import { playPixelPlaceSound } from "@/utils/sound";
 
@@ -86,77 +91,92 @@ export function useGridInteractions({ user }: UseGridInteractionsProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [highlightedCell, moveHighlightedCell]);
 
-  const confirmCellFill: () => Promise<boolean> = useCallback(async () => {
-    if (highlightedCell && selectedColor && user) {
-      try {
-        const colorId = getColorIdByValue(selectedColor);
-        if (colorId === -1) {
-          console.error("Invalid color selected");
+  const confirmCellFill: (type: "place" | "clear") => Promise<boolean> =
+    useCallback(
+      async (type) => {
+        if (type === "place" && !selectedColor) {
+          toast.error("Please select a color");
           return false;
         }
 
-        const result = await updateGridCellMutation.mutateAsync({
-          row: highlightedCell.row,
-          col: highlightedCell.col,
-          colorId: colorId,
-        });
+        if (highlightedCell && user) {
+          try {
+            const colorId =
+              type === "place" && selectedColor
+                ? getColorIdByValue(selectedColor)
+                : null;
 
-        if (result.success) {
-          if (result.tokenReward) {
-            playPixelPlaceSound();
-            toast.success("Pixel Placed", {
-              description: `+${result.tokenReward.amount} PXP Token${
-                result.tokenReward.amount
-                  ? result.tokenReward.amount > 1
-                    ? "s"
-                    : ""
-                  : ""
-              } Earned`,
+            if (colorId === -1) {
+              console.error("Invalid color selected");
+              return false;
+            }
+
+            const result = await updateGridCellMutation.mutateAsync({
+              row: highlightedCell.row,
+              col: highlightedCell.col,
+              colorId: type === "place" ? colorId : null,
             });
-            queryClient.invalidateQueries({
-              queryKey: ["tokenBalance", user?.walletAddress],
+
+            if (result.success) {
+              if (result.tokenReward) {
+                playPixelPlaceSound();
+                toast.success("Pixel Placed", {
+                  description: `+${result.tokenReward.amount} PXP Token${
+                    result.tokenReward.amount
+                      ? result.tokenReward.amount > 1
+                        ? "s"
+                        : ""
+                      : ""
+                  } Earned`,
+                });
+                queryClient.invalidateQueries({
+                  queryKey: ["tokenBalance", user?.walletAddress],
+                });
+              } else if (result.tokenError) {
+                playPixelPlaceSound();
+                toast.success("Pixel Placed");
+                toast.error("Failed to send token reward", {
+                  description: result.tokenError,
+                });
+              } else {
+                playPixelPlaceSound();
+                toast.success("Pixel Placed");
+              }
+
+              return true;
+            } else {
+              // Show error toast
+              toast.error("Failed to place pixel", {
+                description: result.error?.toLowerCase().includes("rate limit")
+                  ? `Try again after ${Math.ceil(COOLDOWN_TIMER / 1000)} seconds`
+                  : result.error,
+              });
+
+              return false;
+            }
+          } catch (error) {
+            console.error("Failed to update cell:", error);
+
+            toast.error("Failed to place pixel", {
+              description:
+                error instanceof Error
+                  ? error.message
+                  : "Network error occurred",
+              position: "top-center",
             });
-          } else if (result.tokenError) {
-            playPixelPlaceSound();
-            toast.success("Pixel Placed");
-            toast.error("Failed to send token reward", {
-              description: result.tokenError,
-            });
-          } else {
-            playPixelPlaceSound();
-            toast.success("Pixel Placed");
           }
-
-          return true;
-        } else {
-          // Show error toast
-          toast.error("Failed to place pixel", {
-            description: result.error?.toLowerCase().includes("rate limit")
-              ? "Try again after 30 seconds"
-              : result.error,
-          });
-
-          return false;
         }
-      } catch (error) {
-        console.error("Failed to update cell:", error);
 
-        toast.error("Failed to place pixel", {
-          description:
-            error instanceof Error ? error.message : "Network error occurred",
-          position: "top-center",
-        });
-      }
-    }
-
-    return false;
-  }, [
-    highlightedCell,
-    selectedColor,
-    user,
-    updateGridCellMutation,
-    queryClient,
-  ]);
+        return false;
+      },
+      [
+        highlightedCell,
+        selectedColor,
+        user,
+        updateGridCellMutation,
+        queryClient,
+      ],
+    );
 
   return {
     highlightedCell,

@@ -85,7 +85,7 @@ export function WithdrawTokensDialogContent({
   const onSubmit = async (data: WithdrawFormData) => {
     if (data.amount > userBalance) {
       toast.error("Insufficient balance", {
-        description: `You only have ${userBalance.toFixed(2)} tokens available`,
+        description: `You only have ${userBalance.toFixed(1)} tokens available`,
       });
       return;
     }
@@ -124,7 +124,7 @@ export function WithdrawTokensDialogContent({
             Tokens Earned
           </div>
           <div className="text-xl font-bold text-foreground">
-            {userBalance.toFixed(2)} PXP
+            {userBalance.toFixed(1)} PXP
           </div>
         </div>
 

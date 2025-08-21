@@ -20,7 +20,7 @@ export function TokenBalance({ walletAddress }: { walletAddress: string }) {
 
   return (
     <div className="text-foreground">
-      <span>{Number(toEther(BigInt(balanceQuery.data))).toFixed(0)} PXP</span>
+      <span>{Number(toEther(BigInt(balanceQuery.data))).toFixed(1)} PXP</span>
     </div>
   );
 }

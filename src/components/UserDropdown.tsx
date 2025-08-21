@@ -32,7 +32,7 @@ export function UserDropdown({ user, onLogout }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center gap-2 cursor-pointer px-4 border-l">
+        <div className="flex items-center gap-2 cursor-pointer px-2 rounded-lg hover:bg-card py-1 relative">
           <img
             src={user.picture}
             alt={user.username}

@@ -9,11 +9,11 @@ export function playPixelPlaceSound() {
     audio.preload = "auto";
     audio.play().catch((error) => {
       // Silently fail if audio can't play (e.g., user hasn't interacted with page yet)
-      console.debug("Audio playback failed:", error);
+      console.error("Audio playback failed:", error);
     });
   } catch (error) {
     // Silently fail if audio creation failed
-    console.debug("Audio creation failed:", error);
+    console.error("Audio creation failed:", error);
   }
 }
 
@@ -24,9 +24,9 @@ export function playSound(soundPath: string, volume: number) {
     audio.volume = Math.max(0, Math.min(1, volume)); // Clamp volume between 0 and 1
 
     audio.play().catch((error) => {
-      console.debug("Audio playback failed:", error);
+      console.error("Audio playback failed:", error);
     });
   } catch (error) {
-    console.debug("Audio creation failed:", error);
+    console.error("Audio creation failed:", error);
   }
 }

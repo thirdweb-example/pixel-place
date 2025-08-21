@@ -112,3 +112,6 @@ export const HIGHLIGHT_FONT_SIZE = 12; // Font size for user label text
 // Mouse Wheel Configuration
 export const ZOOM_IN_FACTOR = 1.1; // Zoom in multiplier
 export const ZOOM_OUT_FACTOR = 0.9; // Zoom out multiplier
+
+// Cooldown Configuration
+export const COOLDOWN_TIMER = 5000; // 5 seconds

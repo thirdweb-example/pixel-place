@@ -81,24 +81,4 @@ CREATE POLICY "No direct client updates" ON user_sessions
 CREATE POLICY "No direct client deletes" ON user_sessions
   FOR DELETE USING (false);
 
--- Function to check rate limiting (30 seconds) - SECURE VERSION
-CREATE OR REPLACE FUNCTION check_rate_limit(user_id_param VARCHAR(255))
-RETURNS BOOLEAN AS $$
-BEGIN
-  RETURN NOT EXISTS (
-    SELECT 1 FROM user_sessions
-    WHERE user_id = user_id_param
-    AND last_cell_update > NOW() - INTERVAL '30 seconds'
-  );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Function to update user's last cell update time - SECURE VERSION
-CREATE OR REPLACE FUNCTION update_user_cell_update_time(user_id_param VARCHAR(255))
-RETURNS VOID AS $$
-BEGIN
-  UPDATE user_sessions
-  SET last_cell_update = NOW()
-  WHERE user_id = user_id_param;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;

@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { COOLDOWN_TIMER } from "@/constants";
 import {
   NEXT_PUBLIC_TOKEN_ADDRESS,
   NEXT_PUBLIC_TOKEN_CHAIN_ID,
@@ -42,7 +43,8 @@ export function InfoModal() {
                 <span className="text-foreground">
                   you get 1 PXP Token for every pixel you place.
                 </span>{" "}
-                You can place a pixel every 30 seconds
+                You can place a pixel every {Math.ceil(COOLDOWN_TIMER / 1000)}{" "}
+                seconds
               </p>
 
               <p>You must login with Twitter to place pixels.</p>

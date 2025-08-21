@@ -19,7 +19,7 @@ export function AppHeader({
   onLogout: () => void;
 }) {
   return (
-    <div className="bg-background border-b py-4 px-4 relative z-10">
+    <div className="bg-background border-b py-3 px-4 relative z-10">
       <header className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-3">
@@ -29,7 +29,7 @@ export function AppHeader({
           <InfoModal />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3.5">
           <Button
             asChild
             variant="outline"

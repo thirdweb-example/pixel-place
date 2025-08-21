@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
+import { COOLDOWN_TIMER } from "@/constants";
 import { getUser } from "@/lib/get-user";
 import { NEXT_PUBLIC_SUPABASE_URL } from "@/lib/public-envs";
 import { SUPABASE_SERVICE_ROLE_KEY } from "@/lib/server-envs";
@@ -63,11 +64,7 @@ export async function updateGridCell(
     }
 
     // Validate input
-    if (
-      typeof row !== "number" ||
-      typeof col !== "number" ||
-      typeof colorId !== "number"
-    ) {
+    if (typeof row !== "number" || typeof col !== "number") {
       return {
         success: false,
         error: "Invalid input: row, col, and colorId are required",
@@ -86,15 +83,15 @@ export async function updateGridCell(
       return { success: false, error: "Invalid grid position" };
     }
 
-    // Check rate limiting (30 seconds)
+    // Check rate limiting (10 seconds)
     if (sessionUser.last_cell_update) {
       const lastUpdateTime = new Date(sessionUser.last_cell_update);
       const now = new Date();
       const timeDiff = now.getTime() - lastUpdateTime.getTime();
 
-      if (timeDiff < 30000) {
-        // 30 seconds in milliseconds
-        const remainingTime = Math.ceil((30000 - timeDiff) / 1000);
+      if (timeDiff < COOLDOWN_TIMER) {
+        // Cooldown timer in milliseconds
+        const remainingTime = Math.ceil((COOLDOWN_TIMER - timeDiff) / 1000);
         return {
           success: false,
           error: "Rate limit exceeded",

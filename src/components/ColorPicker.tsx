@@ -1,4 +1,4 @@
-import { Clock8Icon, Loader2, ScanIcon } from "lucide-react";
+import { Clock8Icon, EraserIcon, Loader2, ScanIcon } from "lucide-react";
 import { useState } from "react";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { TwitterLoginButton } from "@/components/TwitterLoginButton";
@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ToolTipLabel } from "@/components/ui/tooltip";
-import { COLOR_PALETTE } from "@/constants";
+import { COLOR_PALETTE, COOLDOWN_TIMER } from "@/constants";
 import type { User } from "@/lib/get-user";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ interface ColorPickerProps {
   selectedColor: string | null;
   isUpdating: boolean;
   onColorSelect: (color: string | null) => void;
-  onPlacePixel: () => Promise<boolean>;
+  onPlacePixel: (type: "place" | "clear") => Promise<boolean>;
 }
 
 export function ColorPicker({
@@ -32,6 +32,9 @@ export function ColorPicker({
 }: ColorPickerProps) {
   const { timer, startTimer } = useTimer();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [lastSubmittedType, setLastSubmittedType] = useState<
+    "place" | "clear" | null
+  >(null);
 
   if (!user) {
     return (
@@ -58,7 +61,7 @@ export function ColorPicker({
               {timer === null ? (
                 <>
                   <ScanIcon className="size-4" />
-                  Place Pixel
+                  Place a pixel
                 </>
               ) : (
                 <>
@@ -95,30 +98,55 @@ export function ColorPicker({
             ))}
           </div>
 
-          {/* Place Pixel Button */}
-          <Button
-            type="button"
-            size="sm"
-            onClick={async () => {
-              const success = await onPlacePixel();
-              if (success) {
-                startTimer(30);
-                setIsDropdownOpen(false);
-              }
-            }}
-            disabled={!selectedColor || isUpdating}
-            variant="default"
-            className="w-full"
-          >
-            <span className="flex items-center gap-2">
-              {isUpdating ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                <ScanIcon className="size-4" />
-              )}
-              Place Pixel
-            </span>
-          </Button>
+          <div className="grid grid-cols-2 gap-3">
+            {/* Place Pixel Button */}
+            <Button
+              type="button"
+              size="sm"
+              onClick={async () => {
+                setLastSubmittedType("place");
+                const success = await onPlacePixel("place");
+                if (success) {
+                  startTimer(Math.ceil(COOLDOWN_TIMER / 1000));
+                  setIsDropdownOpen(false);
+                }
+              }}
+              variant="default"
+            >
+              <span className="flex items-center gap-2">
+                {isUpdating && lastSubmittedType === "place" ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <ScanIcon className="size-4" />
+                )}
+                Place Pixel
+              </span>
+            </Button>
+
+            {/* Clear Pixel Button */}
+            <Button
+              type="button"
+              size="sm"
+              onClick={async () => {
+                setLastSubmittedType("clear");
+                const success = await onPlacePixel("clear");
+                if (success) {
+                  startTimer(Math.ceil(COOLDOWN_TIMER / 1000));
+                  setIsDropdownOpen(false);
+                }
+              }}
+              variant="outline"
+            >
+              <span className="flex items-center gap-2">
+                {isUpdating && lastSubmittedType === "clear" ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <EraserIcon className="size-4 text-muted-foreground" />
+                )}
+                Clear Pixel
+              </span>
+            </Button>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
