@@ -17,6 +17,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Pixel Place",
   description: "Real-time collaborative digital artwork",
+  openGraph: {
+    title: "Pixel Place",
+    description: "Real-time collaborative digital artwork",
+  },
 };
 
 export default function RootLayout({

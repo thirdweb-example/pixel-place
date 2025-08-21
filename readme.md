@@ -1,4 +1,4 @@
-<img src="readme/pixel-place.png" alt="Pixel Place Logo" width="250" />
+<img src="readme/pixel-place.png" alt="Pixel Place Logo"  />
 
 # Pixel Place
 
@@ -66,7 +66,6 @@ pnpm dev
 - After deployment, Transfer minted tokens from your personal wallet to the server wallet with address `THIRDWEB_SERVER_WALLET_ADDRESS`
 - IF you don't have a thirdweb server wallet, you can create one using thirdweb dashboard > your team > your project > transactions > server wallets page.
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## License
 
