@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   twitter: {
     title: "Pixel Place",
     description: "Real-time collaborative digital artwork",
+    creator: "@thirdweb",
+    site: "@thirdweb",
+    card: "summary_large_image",
   },
 };
 
