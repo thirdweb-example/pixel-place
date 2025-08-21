@@ -18,6 +18,7 @@ interface ColorPickerProps {
   highlightedCell: { row: number; col: number } | null;
   selectedColor: string | null;
   isUpdating: boolean;
+  highlightedCellColorId: number | null | undefined;
   onColorSelect: (color: string | null) => void;
   onPlacePixel: (type: "place" | "clear") => Promise<boolean>;
 }
@@ -27,6 +28,7 @@ export function ColorPicker({
   highlightedCell,
   selectedColor,
   isUpdating,
+  highlightedCellColorId,
   onColorSelect,
   onPlacePixel,
 }: ColorPickerProps) {
@@ -35,6 +37,8 @@ export function ColorPicker({
   const [lastSubmittedType, setLastSubmittedType] = useState<
     "place" | "clear" | null
   >(null);
+
+  const isHighlightedCellColored = typeof highlightedCellColorId === "number";
 
   if (!user) {
     return (
@@ -135,6 +139,8 @@ export function ColorPicker({
                   setIsDropdownOpen(false);
                 }
               }}
+              className="disabled:opacity-100"
+              disabled={!isHighlightedCellColored}
               variant="outline"
             >
               <span className="flex items-center gap-2">

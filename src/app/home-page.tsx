@@ -73,6 +73,10 @@ export function HomePage(props: { user: User | null }) {
     return <ErrorState error={error} />;
   }
 
+  const highlightedCellColor = highlightedCell
+    ? grid[highlightedCell.row][highlightedCell.col]?.colorId
+    : null;
+
   return (
     <div className="h-dvh overflow-hidden bg-background text-foreground flex flex-col">
       <AppHeader user={props.user} onLogout={handleLogout} />
@@ -114,6 +118,7 @@ export function HomePage(props: { user: User | null }) {
         highlightedCell={highlightedCell}
         selectedColor={selectedColor}
         isUpdating={isUpdating}
+        highlightedCellColorId={highlightedCellColor}
         onColorSelect={setSelectedColor}
         onPlacePixel={confirmCellFill}
       />
