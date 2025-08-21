@@ -121,7 +121,7 @@ export function useGridInteractions({ user }: UseGridInteractionsProps) {
               if (result.tokenReward) {
                 playPixelPlaceSound();
                 toast.success("Pixel Placed", {
-                  description: `+${result.tokenReward.amount} PXP Token${
+                  description: `${result.tokenReward.amount} PXP Coin${
                     result.tokenReward.amount
                       ? result.tokenReward.amount > 1
                         ? "s"

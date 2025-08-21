@@ -40,7 +40,7 @@ export function AppHeader({
               target="_blank"
               rel="noopener noreferrer"
             >
-              PXP Token
+              PXP Coin
               <ExternalLinkIcon className="size-3 text-muted-foreground" />
             </a>
           </Button>

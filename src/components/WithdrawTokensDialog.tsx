@@ -111,17 +111,17 @@ export function WithdrawTokensDialogContent({
     <DialogContent className="sm:max-w-md">
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
-          Withdraw Tokens
+          Withdraw Coins
         </DialogTitle>
         <DialogDescription className="text-sm text-muted-foreground">
-          Withdraw the PXP tokens to another wallet
+          Withdraw the PXP coins to another wallet
         </DialogDescription>
       </DialogHeader>
 
       <div className="space-y-6">
         <div className="p-4 bg-card rounded-lg">
           <div className="text-sm text-muted-foreground font-medium">
-            Tokens Earned
+            Coins Earned
           </div>
           <div className="text-xl font-bold text-foreground">
             {userBalance.toFixed(1)} PXP

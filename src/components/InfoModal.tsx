@@ -41,7 +41,7 @@ export function InfoModal() {
               <p>
                 As a participation reward,{" "}
                 <span className="text-foreground">
-                  you get 1 PXP Token for every pixel you place.
+                  you get 1 PXP coin for every pixel you place.
                 </span>{" "}
                 You can place a pixel every {Math.ceil(COOLDOWN_TIMER / 1000)}{" "}
                 seconds
@@ -79,13 +79,13 @@ export function InfoModal() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-medium text-base">Claiming Token Rewards</h3>
+            <h3 className="font-medium text-base">Withdrawing Coins</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>
-                A wallet is generated for you when you login and all tokens are
-                sent to this wallet. You can withdraw these tokens at any time
-                to any other wallet. Click on your username on top right corner
-                and use the Withdraw feature.
+                A wallet is generated for you when you login and all coins are
+                sent to this wallet. You can withdraw these coins at any time to
+                any other wallet. Click on your username on top right corner and
+                use the Withdraw feature.
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ export function InfoModal() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View PXP Token
+              View PXP coin
               <ExternalLinkIcon className="size-3 text-muted-foreground" />
             </a>
           </Button>

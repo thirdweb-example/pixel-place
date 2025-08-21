@@ -82,7 +82,7 @@ export function UserDropdown({ user, onLogout }: UserDropdownProps) {
 
         {/* Token Balance  */}
         <div>
-          <DropdownMenuLabel className="px-0">Tokens Earned</DropdownMenuLabel>
+          <DropdownMenuLabel className="px-0">Coins Earned</DropdownMenuLabel>
           <div className="px-3 py-2 bg-card rounded-md text-sm">
             <TokenBalance walletAddress={user.walletAddress} />
           </div>
