@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     title: "Pixel Place",
     description: "Real-time collaborative digital artwork",
   },
+  twitter: {
+    title: "Pixel Place",
+    description: "Real-time collaborative digital artwork",
+  },
 };
 
 export default function RootLayout({
