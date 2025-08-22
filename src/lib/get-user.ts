@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { THIRDWEB_SECRET_KEY } from "@/lib/server-envs";
 
 export type User = {
   id: string;
@@ -26,7 +27,7 @@ export async function getUser() {
     method: "GET",
     headers: {
       Authorization: `Bearer ${authToken}`,
-      "x-secret-key": process.env.THIRDWEB_SECRET_KEY || "",
+      "x-secret-key": THIRDWEB_SECRET_KEY,
     },
   });
 

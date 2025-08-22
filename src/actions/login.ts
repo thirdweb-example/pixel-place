@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { THIRDWEB_SECRET_KEY } from "@/lib/server-envs";
 
 export async function login(
   origin: string,
@@ -11,7 +12,7 @@ export async function login(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-secret-key": process.env.THIRDWEB_SECRET_KEY || "",
+        "x-secret-key": THIRDWEB_SECRET_KEY,
       },
       body: JSON.stringify({
         method: "oauth",

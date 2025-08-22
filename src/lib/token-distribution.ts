@@ -1,4 +1,10 @@
 import { toWei } from "thirdweb/utils";
+import { THIRDWEB_SECRET_KEY } from "@/lib/server-envs";
+import {
+  NEXT_PUBLIC_THIRDWEB_SERVER_WALLET_ADDRESS,
+  NEXT_PUBLIC_TOKEN_ADDRESS,
+  NEXT_PUBLIC_TOKEN_CHAIN_ID,
+} from "./public-envs";
 
 interface TokenDistributionParams {
   walletAddress: string;
@@ -26,14 +32,14 @@ export async function transferTokens({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-secret-key": process.env.THIRDWEB_SECRET_KEY || "",
+          "x-secret-key": THIRDWEB_SECRET_KEY,
         },
         body: JSON.stringify({
-          chainId: process.env.NEXT_PUBLIC_TOKEN_CHAIN_ID,
-          from: process.env.THIRDWEB_SERVER_WALLET_ADDRESS,
+          chainId: NEXT_PUBLIC_TOKEN_CHAIN_ID,
+          from: NEXT_PUBLIC_THIRDWEB_SERVER_WALLET_ADDRESS,
           calls: [
             {
-              contractAddress: process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
+              contractAddress: NEXT_PUBLIC_TOKEN_ADDRESS,
               method: "function transfer(address to, uint256 amount)",
               params: [walletAddress, rewardAmount.toString()],
             },

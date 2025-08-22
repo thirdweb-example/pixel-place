@@ -1,17 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
+import {
+  NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+  NEXT_PUBLIC_TOKEN_ADDRESS,
+  NEXT_PUBLIC_TOKEN_CHAIN_ID,
+} from "@/lib/public-envs";
 
 async function fetchTokenBalance(walletAddress: string): Promise<string> {
   const response = await fetch("https://api.thirdweb.com/v1/contracts/read", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-client-id": process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || "",
+      "x-client-id": NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     },
     body: JSON.stringify({
-      chainId: process.env.NEXT_PUBLIC_TOKEN_CHAIN_ID,
+      chainId: NEXT_PUBLIC_TOKEN_CHAIN_ID,
       calls: [
         {
-          contractAddress: process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
+          contractAddress: NEXT_PUBLIC_TOKEN_ADDRESS,
           method: "function balanceOf(address owner) view returns (uint256)",
           params: [walletAddress],
         },
